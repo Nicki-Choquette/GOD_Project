@@ -109,7 +109,33 @@ I then ran all of the preprocessing & VITON-HD by writing a script 'preprocessin
 If you setup your directory in the following manner:
 Project[VITON-HD, image-background-remove-tool, openpose-master, CIHP_PGN, clothing, people, processing_cloth.py, preprocessing_people.py, preprocessing_people2.py, preprocessing_script.ps1]
 
-Then the script I wrote preprocessing_script.ps1 (for Windows Powershell) can be run to conduct all the preprocessing on people images (kept in the 'people' folder) and shirt images (kept in the 'clothing' folder), and then VITON-HD is run, but on the pairs indicated in the 'VITON-HD/datasets/test_pairs.txt' file.
+Then the script I wrote preprocessing_script.ps1 (for Windows Powershell) can be run to conduct all the preprocessing on people images (kept in the 'people' folder) and shirt images (kept in the 'clothing' folder), and then VITON-HD is run, but on the pairs indicated in the 'VITON-HD/datasets/test_pairs.txt' file. Here is the code contained within preprocessing_script.ps1:
+
+```
+& C:/Users/nicki/AppData/Local/Programs/Python/Python310/python.exe c:/Users/nicki/Geometry_Of_Data/GOD_Project/preprocessing_cloth.py
+& cd C:/Users/nicki/Geometry_Of_Data/GOD_Project/openpose-master
+& build/x64/Release/OpenPoseDemo.exe --image_dir C:/Users/nicki/Geometry_Of_Data/GOD_Project/people --hand --disable_blending --display 0 --write_json C:/Users/nicki/Geometry_Of_Data/GOD_Project/VITON-HD/datasets/test/openpose-json --write_images C:/Users/nicki/Geometry_Of_Data/GOD_Project/VITON-HD/datasets/test/openpose-img --num_gpu 1 --num_gpu_start 0
+& C:/Users/nicki/AppData/Local/Programs/Python/Python310/python.exe c:/Users/nicki/Geometry_Of_Data/GOD_Project/preprocessing_people.py
+& cd C:/Users/nicki/Geometry_Of_Data/GOD_Project/CIHP_PGN
+& C:/Users/nicki/AppData/Local/Programs/Python/Python37/python37.exe c:/Users/nicki/Geometry_Of_Data/GOD_Project/CIHP_PGN/test_pgn.py
+& C:/Users/nicki/AppData/Local/Programs/Python/Python310/python.exe c:/Users/nicki/Geometry_Of_Data/GOD_Project/preprocessing_people2.py
+& cd C:/Users/nicki/Geometry_Of_Data/GOD_Project/VITON-HD
+& set CUDA_VISIBLE_DEVICES=0
+& C:/Users/nicki/AppData/Local/Programs/Python/Python310/python.exe test.py --name "our_images"
+```
+However to work for other paths (aka not my specific PC) paths would need to be changed both within the preprocessing.py files and the .ps1 file. This is what paths should be in the .ps1 file:
+```
+& <path to python.exe for python v3.10> <path to project folder>/preprocessing_cloth.py
+& cd <path to project folder>/openpose-master
+& build/x64/Release/OpenPoseDemo.exe --image_dir <path to project folder>/people --hand --disable_blending --display 0 --write_json <path to project folder>VITON-HD/datasets/test/openpose-json --write_images <path to project folder>/VITON-HD/datasets/test/openpose-img --num_gpu 1 --num_gpu_start 0
+& <path to python.exe for python v3.10> <path to project folder>/preprocessing_people.py
+& cd <path to project folder>/CIHP_PGN
+& <path to python.exe for python v3.7> <path to project folder>/CIHP_PGN/test_pgn.py
+& <path to python.exe for python v3.10> <path to project folder>/preprocessing_people2.py
+& cd <path to project folder>/VITON-HD
+& set CUDA_VISIBLE_DEVICES=0
+& <path to python.exe for python v3.10> test.py --name "our_images"
+```
 
 However, I ran into an issue here. VITON-HD was throwing an error when I was trying to run it with 'jane.jpg red_shirt.jpg' being the only line in the 'test_pairs.txt' file. I decided to run just VITON-HD, but on '00891_00.jpg red_shirt.jpg', for which I still got an error, and then I tried it on 'jane.jpg 01260_00.jpg', and still got an error. This told me that it was an issue with both the preprocessing of the person image and the preprocessing of the shirt image. I looked more closely at the error from the '00891_00.jpg red_shirt.jpg' run, "RuntimeError: The size of tensor a (768) must match the size of tensor b (3) at non-singleton dimension 4". Examining the location of this error in 'test.py', I printed the shapes of 'c' and 'cm', saw how they differed, reshaped 'cm' to match, and this fixed that error but resulted in another error. Thus I undid my edits in 'test.py' and figured I needed to fix the images for the shirt. I recalled when I had been researching images that there were modes for images, so on this hunch I printed the modes for my versions of the images and for VITON-HD's versions. Alas, my cloth-mask image was supposed to be 'L' mode, so I edited 'preprocessing_cloth.py' to do so.  Running VITON-HD again on '00891_00.jpg red_shirt.jpg', it worked!
 
