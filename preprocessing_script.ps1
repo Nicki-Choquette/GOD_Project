@@ -1,0 +1,3 @@
+﻿& C:/Users/nicki/AppData/Local/Programs/Python/Python310/python.exe c:/Users/nicki/Geometry_Of_Data/GOD_Project/preprocessing.py
+& cd C:/Users/nicki/Geometry_Of_Data/GOD_Project/openpose-master
+& build/x64/Release/OpenPoseDemo.exe --image_dir C:/Users/nicki/Geometry_Of_Data/GOD_Project/people --hand --disable_blending --display 0 --write_json C:/Users/nicki/Geometry_Of_Data/GOD_Project/VITON-HD/datasets/test/openpose-json --write_images C:/Users/nicki/Geometry_Of_Data/GOD_Project/VITON-HD/datasets/test/openpose-img --num_gpu 1 --num_gpu_start 0
