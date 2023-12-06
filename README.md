@@ -1,3 +1,6 @@
+# This Repository Layout:
+The main branch contains final scripts used to run implementations of our experiments. The 'other_programs_we_wrote' folder contains supplementary scripts that were written throughout the process and some are referenced in this README, but either their functionality was moved to the final scripts or their functionality did not end up being used. Finally, the 'Generated Data' folder contains a zip file that contains all images/results generated from this project (yes it is organized once you unzip it).
+
 # GOD_Project
 
 Clone this repository:
