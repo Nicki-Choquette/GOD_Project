@@ -21,6 +21,8 @@ shirt_dir_path = "c:/Users/nicki/Geometry_Of_Data/GOD_Project/clothing"
 
 # shirts
 def create_mask(input_path, output_path, cloth_path):
+    # note the following code within this function up to but not including `WHITE = (255, 255, 255, 1)` was provided by the image-background-remove-tool (I made few alterations)
+    # https://github.com/OPHoperHPO/image-background-remove-tool#if-you-want-control-everything
     seg_net = TracerUniversalB7(device='cpu',
               batch_size=1)
 
@@ -45,7 +47,7 @@ def create_mask(input_path, output_path, cloth_path):
     img = image.convert("RGB")
     img.save(cloth_path)
     image_wo_bg = interface([image])[0]
-    # image_wo_bg.save(output_path)
+    
     WHITE = (255, 255, 255, 1)
     BLACK = (0, 0, 0, 1)
 
