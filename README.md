@@ -21,11 +21,11 @@ conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvi
 pip install opencv-python torchgeometry
 ```
 
-## Pre-trained networks
+## Pre-trained networks (these are VITON-HD Github's instructions that we followed)
 
-We provide pre-trained networks and sample images from the test dataset. Please download `*.pkl` and test images from the [VITON-HD Google Drive folder](https://drive.google.com/drive/folders/0B8kXrnobEVh9fnJHX3lCZzEtd20yUVAtTk5HdWk2OVV0RGl6YXc0NWhMOTlvb1FKX3Z1OUk?resourcekey=0-OIXHrDwCX8ChjypUbJo4fQ&usp=sharing) and unzip `*.zip` files. `test.py` assumes that the downloaded files are placed in `./checkpoints/` and `./datasets/` directories.
+"We provide pre-trained networks and sample images from the test dataset. Please download `*.pkl` and test images from the [VITON-HD Google Drive folder](https://drive.google.com/drive/folders/0B8kXrnobEVh9fnJHX3lCZzEtd20yUVAtTk5HdWk2OVV0RGl6YXc0NWhMOTlvb1FKX3Z1OUk?resourcekey=0-OIXHrDwCX8ChjypUbJo4fQ&usp=sharing) and unzip `*.zip` files. `test.py` assumes that the downloaded files are placed in `./checkpoints/` and `./datasets/` directories."
 
-## Testing
+## Testings (these are VITON-HD Github's instructions that we followed)
 
 To generate virtual try-on images, run:
 
@@ -35,7 +35,7 @@ set CUDA_VISIBLE_DEVICES=0 & python test.py --name "first_run"
 
 The results are saved in the `./results/` directory. You can change the location by specifying the `--save_dir` argument. To synthesize virtual try-on images with different pairs of a person and a clothing item, edit `./datasets/test_pairs.txt` and run the same command. (did not do this part)
 
-### After this point, we deviated from the VITON-HD instructions, and started making our own alterations
+# After this point, we deviated from the VITON-HD instructions, and started making our own alterations
 
 ## We first started by rotating cloth and cloth-mask images to see how it would impact results
 
@@ -47,7 +47,7 @@ We then tried 10 degrees, which we hoped would not impact the results too much. 
 
 We also tried 2 degrees, which did significantly better. There were some minute distortions that were noticeably, however it still functioned effectively. These results are contained in `results/rotate_all_2_run`. (*Describe Further*)
 
-## We then wanted to be able to 1) alter the human images and 2) use our own images. For this, we needed to be able to do similar preprocessing to what they had done.
+## We then wanted to be able to use our own images. For this, we needed to be able to do similar preprocessing to what they had done.
 
 # Preprocessing Step 1: Openpose
 Followed this to ensure pre-requisites were met: https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/1_prerequisites.md
